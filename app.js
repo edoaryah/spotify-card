@@ -5,6 +5,7 @@ const ColorThief = require("colorthief");
 const fs = require("fs");
 const tmp = require("tmp");
 const dotenv = require("dotenv");
+const path = require("path");
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
 
-nunjucks.configure("views", {
+nunjucks.configure(path.join(__dirname, "views"), {
   autoescape: true,
   express: app,
 });
@@ -171,8 +172,8 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get('/test', (req, res) => {
-  res.send('Hello World');
+app.get("/test", (req, res) => {
+  res.send("Hello World");
 });
 
 app.listen(PORT, () => {
