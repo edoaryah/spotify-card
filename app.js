@@ -58,7 +58,7 @@ async function getCurrentlyPlayingSong(accessToken) {
           .map((artist) => artist.name)
           .join(", "),
         cover_image: (
-          await axios.get(currentlyPlaying.album.images[0].url, {
+          await axios.get(currentlyPlaying.album.images[1].url, {
             responseType: "arraybuffer",
           })
         ).data.toString("base64"),
@@ -91,7 +91,7 @@ async function getRecentlyPlayedSongs(accessToken) {
           .map((artist) => artist.name)
           .join(", "),
         cover_image: (
-          await axios.get(recentlyPlayed.album.images[0].url, {
+          await axios.get(recentlyPlayed.album.images[1].url, {
             responseType: "arraybuffer",
           })
         ).data.toString("base64"),
@@ -119,7 +119,7 @@ async function getColorPalette(coverImageBase64) {
     const rgbToCss = (rgbArray) =>
       `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
 
-    return [rgbToCss(palette[0]), rgbToCss(palette[1]), rgbToCss(palette[2])];
+    return [rgbToCss(palette[0]), rgbToCss(palette[1]), rgbToCss(palette[2]), rgbToCss(palette[3])];
   } catch (error) {
     console.error("Error getting color palette:", error);
     return null;
@@ -150,18 +150,20 @@ app.get("/", async (req, res) => {
       : null;
 
     const viewAnimation = song_name && song_name.length > 24;
+    const viewAnimation2 = artist_name && artist_name.length > 30;
     const palette = await getColorPalette(songData.cover_image);
 
     const svg = nunjucks.render("spotifycard.html.j2", {
-      height: 450,
       title_text: title_text,
       song_name: song_name,
       viewAnimation: viewAnimation,
+      viewAnimation2: viewAnimation2,
       artist_name: artist_name,
       img: cover_image,
       color1: palette[0],
       color2: palette[1],
       color3: palette[2],
+      color4: palette[3],
     });
 
     res.setHeader("Content-Type", "image/svg+xml");

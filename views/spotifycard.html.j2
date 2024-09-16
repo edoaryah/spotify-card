@@ -1,6 +1,6 @@
-<svg width="320" height="{{height}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="cardTitle" role="img">
+<svg width="297" height="396" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="cardTitle" role="img">
   <title id="cardTitle">Now playing on Spotify</title>
-  <foreignObject width="320" height="{{height}}">
+  <foreignObject width="297" height="396">
     <style>
       * {
         margin: 0;
@@ -20,12 +20,12 @@
         align-items: center;
         padding: 15px;
         box-sizing: border-box;
-        width: fit-content;
-        height: fit-content;
-        background: linear-gradient(135deg, {{ color1 }}, {{ color2 }}, {{ color3 }});
-        animation: gradientAnimation 5s ease infinite;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, {{ color1 }}, {{ color2 }}, {{ color3 }}, {{ color4 }});
+        animation: gradientAnimation 10s ease infinite;
         background-size: 200% 200%;
-        border: 1px solid #1ed760;
+        border: 2px solid #1ed760;
         border-radius: 12px;
         gap: 5px;
       }
@@ -79,6 +79,25 @@
         padding-bottom: 5px;
       }
 
+      .artist {
+        margin: 0 auto;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 200px;
+        color: #b3b3b3;
+        padding-bottom: 5px;
+      }
+
+      .artist span {
+        display: inline-block;
+        padding-left: 100%;
+        animation: marquee 10s linear infinite;
+      }
+
+      .artist-animation span {
+        animation-delay: 0s;
+      }
+
       .art {
         position: relative;
         display: flex;
@@ -93,7 +112,7 @@
       }
 
       img {
-        border: 3px solid #1ed760;
+        border: 2px solid #1ed760;
         border-radius: 50%;
         animation: spin 20s linear infinite;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -109,16 +128,16 @@
       }
 
       @keyframes gradientAnimation {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
     </style>
 
     <div xmlns="http://www.w3.org/1999/xhtml" class="container">
@@ -147,7 +166,17 @@
       </div>
       {% endif %}
 
-      <div class="artist">{{ artist_name }}</div>
+      {% if viewAnimation2 %}
+      <div class="artist-name-long">
+        <p class="artist artist-animation">
+          <span>{{ artist_name}}</span>
+        </p>
+      </div>
+      {% else %}
+      <div class="artist">
+        <span>{{ artist_name }}</span>
+      </div>
+      {% endif %}
 
       <div class="art">
         <img id="artwork" src="{{ img }}" width="250" />
